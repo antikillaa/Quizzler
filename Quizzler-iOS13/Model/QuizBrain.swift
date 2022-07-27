@@ -3,6 +3,7 @@
 import Foundation
 
 struct QuizBrain {
+    
     let quiz = [
       Question(q: "A slug's blood is green.", a: "True"),
       Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -19,9 +20,15 @@ struct QuizBrain {
     ]
     
     var questionNumber = 0
+    
+    var score = 0
+    
+    
+    
 
-    func checkAnswer(_ userAnswer: String) -> Bool {
+    mutating func checkAnswer(_ userAnswer: String) -> Bool {
         if userAnswer == quiz[questionNumber].answer.lowercased() {
+            score += 1
             return true
         } else {
             return false
@@ -45,8 +52,17 @@ struct QuizBrain {
             return true
         } else {
             questionNumber = 0
+            score = 0
             return false
         }
+    }
+    
+    func getScore() -> Int {
+        return score
+    }
+    
+    mutating func resetScore() {
+        score = 0
     }
 
 }

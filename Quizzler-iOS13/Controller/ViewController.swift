@@ -6,11 +6,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var falseButton: UIButton!
     @IBOutlet weak var tryAgainButton: UIButton!
     @IBOutlet weak var progressBarr: UIProgressView!
-
+    @IBOutlet weak var scoreLabel: UILabel!
+    
 
     var quizBrain = QuizBrain()
     
-    var score = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +23,11 @@ class ViewController: UIViewController {
         let correctAnswer = quizBrain.checkAnswer(userAnswer!)
         
         if correctAnswer {
-            sender.backgroundColor = .red
-            score += 1
+            sender.backgroundColor = .green
             print("Right")
         } else {
-            sender.backgroundColor = .green
+            sender.backgroundColor = .red
+
             print("Wrong")
         }
     
@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
         } else {
             updateUI()
-            questionLabel.text = "Your score is: " + String(score)
+            questionLabel.text = "Your score is: \(quizBrain.getScore())"
             progressBarr.progress = 1
             trueButton.isEnabled = false
             falseButton.isEnabled = false
@@ -54,6 +54,7 @@ class ViewController: UIViewController {
     }
     
     @objc func updateUI() {
+        scoreLabel.text = "Score \(quizBrain.getScore())" 
         trueButton.backgroundColor = .clear
         falseButton.backgroundColor = .clear
         
@@ -63,7 +64,7 @@ class ViewController: UIViewController {
     
     func resetGame() {
         tryAgainButton.isHidden = true
-        score = 0
+//        quizBrain.resetScore()
         trueButton.isEnabled = true
         falseButton.isEnabled = true
         progressBarr.progress = 0
